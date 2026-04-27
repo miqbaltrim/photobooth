@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapBooth 📸</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg-wrap"></div>
+
+  <!-- Floating emoji stars (JS-populated) -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Fixed decorative stickers -->
+  <div class="sticker" style="top:12%;  left:2.5%; font-size:28px; animation-duration:3.2s;">🌟</div>
+  <div class="sticker" style="top:32%;  left:1%;   font-size:22px; animation-duration:4.1s; animation-delay:.5s;">💫</div>
+  <div class="sticker" style="top:62%;  left:2%;   font-size:26px; animation-duration:3.6s; animation-delay:1s;">🎀</div>
+  <div class="sticker" style="top:80%;  left:3%;   font-size:20px; animation-duration:5s;   animation-delay:.3s;">✨</div>
+  <div class="sticker" style="top:8%;   right:2.5%;font-size:26px; animation-duration:4.3s; animation-delay:.8s;">🦋</div>
+  <div class="sticker" style="top:46%;  right:1.5%;font-size:24px; animation-duration:3.8s; animation-delay:.2s;">🌈</div>
+  <div class="sticker" style="top:72%;  right:2.5%;font-size:22px; animation-duration:3.4s; animation-delay:1.2s;">⭐</div>
+
+  <!-- App shell (z-index above bg) -->
+  <div style="position:relative; z-index:2;">
+
+    <!-- ── HEADER ── -->
+    <header>
+      <div class="logo">
+        <span class="logo-cam">📸</span> SnapBooth
+      </div>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE CAM
+      </div>
+    </header>
+
+    <!-- ── MAIN GRID ── -->
+    <div class="main">
+
+      <!-- ── SIDEBAR ── -->
+      <aside class="sidebar">
+
+        <!-- Grid picker -->
+        <div class="panel">
+          <div class="ptitle">🔲 Pilih Grid</div>
+          <div class="grid-opts">
+            <button class="gbtn active" id="g11" onclick="setGrid(1,1,'g11')">
+              <div class="gicon" style="grid-template-columns:1fr; grid-template-rows:1fr;">
+                <div></div>
+              </div>
+              1×1
+            </button>
+            <button class="gbtn" id="g21" onclick="setGrid(2,1,'g21')">
+              <div class="gicon" style="grid-template-columns:1fr; grid-template-rows:1fr 1fr;">
+                <div></div><div></div>
+              </div>
+              2×1
+            </button>
+            <button class="gbtn" id="g31" onclick="setGrid(3,1,'g31')">
+              <div class="gicon" style="grid-template-columns:1fr; grid-template-rows:1fr 1fr 1fr;">
+                <div></div><div></div><div></div>
+              </div>
+              3×1
+            </button>
+            <button class="gbtn" id="g41" onclick="setGrid(4,1,'g41')">
+              <div class="gicon" style="grid-template-columns:1fr; grid-template-rows:1fr 1fr 1fr 1fr;">
+                <div></div><div></div><div></div><div></div>
+              </div>
+              4×1
+            </button>
+            <button class="gbtn" id="g22" onclick="setGrid(2,2,'g22')">
+              <div class="gicon" style="grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;">
+                <div></div><div></div><div></div><div></div>
+              </div>
+              2×2
+            </button>
+            <button class="gbtn" id="g32" onclick="setGrid(3,2,'g32')">
+              <div class="gicon" style="grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr 1fr;">
+                <div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
+              3×2
+            </button>
+          </div>
+        </div>
+
+        <!-- Theme picker -->
+        <div class="panel">
+          <div class="ptitle">🎨 Tema Strip</div>
+          <div class="theme-opts">
+            <button class="tbtn active" id="theme-dark"    onclick="setTheme('dark')">
+              <div class="tswatch" style="background:linear-gradient(135deg,#0a0a0f,#1c1c28);"></div>
+              ⚫ Dark Cool
+            </button>
+            <button class="tbtn" id="theme-white"   onclick="setTheme('white')">
+              <div class="tswatch" style="background:#fff; border-color:#ccc;"></div>
+              ⚪ Classic
+            </button>
+            <button class="tbtn" id="theme-pink"    onclick="setTheme('pink')">
+              <div class="tswatch" style="background:linear-gradient(135deg,#ffb6e1,#ff69b4);"></div>
+              🌸 Y2K Pink
+            </button>
+            <button class="tbtn" id="theme-retro"   onclick="setTheme('retro')">
+              <div class="tswatch" style="background:linear-gradient(135deg,#f5deb3,#d2a679);"></div>
+              🎞 Retro Film
+            </button>
+            <button class="tbtn" id="theme-neon"    onclick="setTheme('neon')">
+              <div class="tswatch" style="background:linear-gradient(135deg,#0d0026,#200050); border-color:#b06aff;"></div>
+              💜 Neon
+            </button>
+            <button class="tbtn" id="theme-rainbow" onclick="setTheme('rainbow')">
+              <div class="tswatch" style="background:linear-gradient(135deg,#ff6eb4,#ffe040,#40e0ff);"></div>
+              🌈 Rainbow
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter picker -->
+        <div class="panel">
+          <div class="ptitle">✨ Filter Foto</div>
+          <div class="filter-opts">
+            <button class="fbtn active" id="filter-none"      onclick="setFilter('none')">
+              <span class="ficon">😊</span>Normal
+            </button>
+            <button class="fbtn"        id="filter-grayscale" onclick="setFilter('grayscale')">
+              <span class="ficon">🖤</span>B&amp;W
+            </button>
+            <button class="fbtn"        id="filter-sepia"     onclick="setFilter('sepia')">
+              <span class="ficon">☕</span>Sepia
+            </button>
+            <button class="fbtn"        id="filter-vivid"     onclick="setFilter('vivid')">
+              <span class="ficon">🌈</span>Vivid
+            </button>
+            <button class="fbtn"        id="filter-warm"      onclick="setFilter('warm')">
+              <span class="ficon">🌅</span>Warm
+            </button>
+            <button class="fbtn"        id="filter-cool"      onclick="setFilter('cool')">
+              <span class="ficon">❄️</span>Cool
+            </button>
+          </div>
+        </div>
+
+        <!-- Timer settings -->
+        <div class="panel">
+          <div class="ptitle">⏱️ Pengaturan</div>
+          <div class="srow">
+            <div class="slabel">
+              <span>⏳ Jeda sebelum foto</span>
+              <span class="sval" id="tv">3s</span>
+            </div>
+            <input type="range" min="1" max="10" value="3"
+              oninput="timerSec = +this.value; document.getElementById('tv').textContent = this.value + 's'">
+          </div>
+          <div class="srow">
+            <div class="slabel">
+              <span>📷 Delay antar foto</span>
+              <span class="sval" id="dv">2s</span>
+            </div>
+            <input type="range" min="1" max="5" value="2"
+              oninput="delaySec = +this.value; document.getElementById('dv').textContent = this.value + 's'">
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="panel">
+          <button class="btn-main" id="btn-start" onclick="startBooth()">
+            📸 MULAI FOTO!
+          </button>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button class="btn-sec" onclick="resetBooth()">↺ Reset</button>
+            <button class="btn-sec" id="btn-mirror" onclick="toggleMirror()">⊘ Mirror</button>
+          </div>
+        </div>
+
+      </aside><!-- /sidebar -->
+
+      <!-- ── CAMERA COLUMN ── -->
+      <div class="cam-col">
+
+        <!-- Camera card -->
+        <div class="cam-card">
+          <div class="vid-wrap">
+            <div class="vid-ring"></div>
+            <div class="vid-inner">
+              <video id="video" autoplay playsinline></video>
+              <div class="flash-overlay" id="flash"></div>
+              <div id="cdown"></div>
+            </div>
+          </div>
+          <div class="ctoolbar">
+            <div class="cmeta"><div class="recdot"></div>REC</div>
+            <div class="cmeta" id="cstatus" style="color:rgba(77,255,176,.85);">📷 Kamera siap!</div>
+          </div>
+        </div>
+
+        <!-- Progress dots -->
+        <div class="dots-wrap" id="dots-wrap">
+          <span style="font-size:11px; font-weight:800; color:rgba(255,255,255,.4); margin-right:4px;">FOTO</span>
+        </div>
+
+        <!-- Result / download area -->
+        <div class="result-wrap" id="result-wrap">
+          <div class="rtitle">🎉 Yeay! Foto Selesai! 🎊</div>
+          <canvas id="strip"></canvas>
+          <div class="dlrow">
+            <button class="btn-dl"     onclick="dlStrip()">⬇️ Download PNG</button>
+            <button class="btn-retake" onclick="resetBooth()">↺ Foto Ulang</button>
+          </div>
+        </div>
+
+      </div><!-- /cam-col -->
+
+    </div><!-- /main -->
+  </div><!-- /z-index wrapper -->
+
+  <!-- Hidden capture canvas -->
+  <canvas id="cap"></canvas>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+
+</body>
+</html>
